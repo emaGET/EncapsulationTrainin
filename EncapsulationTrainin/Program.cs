@@ -69,13 +69,11 @@ internal class BankAccount
         else if (amount <= 0)
         {
             Console.WriteLine("Insert a positive number, no negatives or 0");
+            return;
         }
         
-        else if (amount <= CurrentBalance)
-        {
-            _balance -= amount;
-            Console.WriteLine($"Withdrawn {amount}. New balance: {_balance}");
-        }
+        _balance -= amount;
+        Console.WriteLine($"Withdrawn {amount}. New balance: {_balance}");
 
     }
 }
