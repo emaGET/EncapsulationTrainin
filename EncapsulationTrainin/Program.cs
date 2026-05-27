@@ -30,7 +30,7 @@ internal class BankAccount
 
     public double CurrentBalance
     {
-        get { return _balance }
+        get { return _balance}
     }
 
     public void Deposit(double amount)
@@ -47,16 +47,36 @@ internal class BankAccount
     }
 
     public void Withdraw(double amount)
-    {
-        if (amount > 0)
+    { 
+    //     if (amount > 0) 
+    //     { 
+    //         _balance -= amount; 
+    //         Console.WriteLine("Withdrawn {amount}. New balance: {_balance}");
+    //     }
+    //     
+    //     else
+    //     {
+    //         Console.WriteLine("Withdrawn failed: try inserting a number lower or equal to Your balance.");
+    //     }
+    // }
+    
+        if (amount > CurrentBalance)
+        {
+            Console.WriteLine($"Withdrawn failed: try inserting a number lower or equal to Your balance.");
+            return;
+        }
+        
+        else if (amount <= 0)
+        {
+            Console.WriteLine("Insert a positive number, no negatives or 0");
+        }
+        
+        else if (amount <= CurrentBalance)
         {
             _balance -= amount;
             Console.WriteLine($"Withdrawn {amount}. New balance: {_balance}");
         }
-        else
-        {
-            Console.WriteLine($"Withdrawn failed: try inserting a number lower or equal to Your balance.");
-        }
+
     }
 }
 
