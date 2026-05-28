@@ -16,65 +16,133 @@
 //     }
 // }
 
-internal class BankAccount
+using System;
+
+class program
 {
-    private double _balance;
-
-    public BankAccount(double initialBalance)
+    static void Main(string[] args)
     {
-        if (initialBalance >= 0)
-        {
-            _balance = initialBalance;
-        }
+        BankAccount myAccount = new BankAccount(initialBalance: 500);
+        Console.WriteLine($"Hello! Your balance is {myAccount.CurrentBalance}");
+        myAccount.Withdraw(100);
+        myAccount.Withdraw(700);
     }
+}
 
-    public double CurrentBalance
+internal class MyConsole
+{
+    public static bool AskForBool(string question)
     {
-        get { return _balance}
-    }
+        Console.Write(question + " ");
+        string? answer = Console.ReadLine();
 
-    public void Deposit(double amount)
-    {
-        if (amount > 0)
+        if (answer == null)
         {
-            _balance += amount;
-            Console.WriteLine($"Deposited {amount}. New balance: {_balance}");
+            return false;
         }
-        else
-        {
-            Console.WriteLine($"Deposit failed: Amount must be positive");
-        }
-    }
 
-    public void Withdraw(double amount)
-    { 
-    //     if (amount > 0) 
-    //     { 
-    //         _balance -= amount; 
-    //         Console.WriteLine("Withdrawn {amount}. New balance: {_balance}");
-    //     }
-    //     
-    //     else
-    //     {
-    //         Console.WriteLine("Withdrawn failed: try inserting a number lower or equal to Your balance.");
-    //     }
-    // }
+        answer = answer.Trim().ToLower();
+        return answer == "y" || answer == "yes";
+    }
+}
+
+internal class ATM
+{
     
-        if (amount > CurrentBalance)
-        {
-            Console.WriteLine($"Withdrawn failed: try inserting a number lower or equal to Your balance.");
-            return;
-        }
-        
-        else if (amount <= 0)
-        {
-            Console.WriteLine("Insert a positive number, no negatives or 0");
-            return;
-        }
-        
-        _balance -= amount;
-        Console.WriteLine($"Withdrawn {amount}. New balance: {_balance}");
+    public enum AccountStatus
+    {
+        GoodScore,
+        Debt
+    }
 
+    internal class BankAccount
+    {
+        private double _balance;
+        private AccountStatus _status = AccountStatus.GoodScore;
+
+        public BankAccount(double initialBalance)
+        {
+            if (initialBalance >= 0)
+            {
+                _balance = initialBalance;
+            }
+        }
+
+        public double CurrentBalance
+        {
+            get { return _balance; }
+        }
+
+        public void Deposit(double amount)
+        {
+            if (amount > 0)
+            {
+                _balance += amount;
+                Console.WriteLine($"Deposited {amount}. New balance: {_balance}");
+            }
+            else
+            {
+                Console.WriteLine($"Deposit failed: Amount must be positive");
+            }
+        }
+
+        public void Withdraw(double amount)
+        { 
+            //     if (amount > 0) 
+            //     { 
+            //         _balance -= amount; 
+            //         Console.WriteLine("Withdrawn {amount}. New balance: {_balance}");
+            //     }
+            //     
+            //     else
+            //     {
+            //         Console.WriteLine("Withdrawn failed: try inserting a number lower or equal to Your balance.");
+            //     }
+            // }
+        
+            if (amount <= 0)
+            {
+                Console.WriteLine("Withdrawn failed: insert a positive number, no negatives or 0");
+                return;
+            }
+
+            if (amount <= CurrentBalance)
+            {
+                _balance -= amount;
+                Console.WriteLine($"Successfully withdrawm {amount} , New balance: {_balance}");
+                return;
+            }
+            
+            if (amount > CurrentBalance)
+            {
+                // Console.WriteLine($"Withdrawn failed: try inserting a number lower or equal to Your balance.");
+                bool readyForDebt = MyConsole.AskForBool($"WARNING! After withdrawing, your account will be in the negatives, {CurrentBalance - amount} , are you sure you want to accept the debt? (Y/n)");
+                if (readyForDebt)
+                {
+                    _balance -= amount;
+                    // Console.WriteLine($"your current balance is {_balance}");
+                    Console.WriteLine($"Successfully withdrawm {amount} , New balance: {_balance}");
+                    return;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            
+            
+            // in this part here i was taking away the money twice... whoopsie!
+            // else if (amount < CurrentBalance)
+            // {
+            //         _balance -= amount;
+            //         Console.WriteLine($"your current balance is {_balance}");
+            // }
+            
+            // _balance -= amount;
+            
+            
+            // Console.WriteLine($"Withdrawn {amount}. New balance: {_balance}. Your credit score is: {_status}");
+        }
     }
 }
 
