@@ -16,9 +16,19 @@
 //     }
 // }
 
-using System;
+using System.Text.Json;
 
-class program
+internal class BankAccountDto
+{
+    public double Balance { get; set; }
+    public string Status { get; set; } = "";
+}
+
+string json = JsonSerializer.Serialize(BankAccountDto);
+File.WriteAllText("account.json", json);
+Console.WriteLine("Saved: " + json);
+
+class Program
 {
     static void Main(string[] args)
     {
