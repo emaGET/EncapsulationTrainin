@@ -39,7 +39,7 @@ class Program
             Status = "GoodScore"
         };
         
-        string json = JsonSerializer.Serialize(BankAccountDto);
+        string json = JsonSerializer.Serialize(dto);
         File.WriteAllText("account.json", json);
         Console.WriteLine("Saved: " + json);
         
