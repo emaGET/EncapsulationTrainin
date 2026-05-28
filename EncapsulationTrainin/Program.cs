@@ -28,6 +28,18 @@ class Program
 {
     static void Main(string[] args)
     {
+        const string file = "account.json";
+
+        if (File.Exists(file))
+        {
+            string json = File.ReadAllText(file);
+            BankAccountDto? dto = JsonSerializer.Deserialize<BankAccountDto>(json);
+            Console.WriteLine($"Loaded saved balance: {dto?.Balance} .");
+        }
+        else
+        {
+            Console.WriteLine($"No save file found, starting fresh.");
+        }
         BankAccount myAccount = new BankAccount(initialBalance: 500);
         Console.WriteLine($"Hello! Your balance is {myAccount.CurrentBalance}");
         myAccount.Withdraw(100);
