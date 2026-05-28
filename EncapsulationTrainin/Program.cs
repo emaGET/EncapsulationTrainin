@@ -24,10 +24,6 @@ internal class BankAccountDto
     public string Status { get; set; } = "";
 }
 
-string json = JsonSerializer.Serialize(BankAccountDto);
-File.WriteAllText("account.json", json);
-Console.WriteLine("Saved: " + json);
-
 class Program
 {
     static void Main(string[] args)
@@ -36,7 +32,20 @@ class Program
         Console.WriteLine($"Hello! Your balance is {myAccount.CurrentBalance}");
         myAccount.Withdraw(100);
         myAccount.Withdraw(700);
+
+        var dto = new BankAccountDto
+        {
+            Balance = myAccount.CurrentBalance,
+            Status = "GoodScore"
+        };
+        
+        string json = JsonSerializer.Serialize(BankAccountDto);
+        File.WriteAllText("account.json", json);
+        Console.WriteLine("Saved: " + json);
+        
     }
+    
+
 }
 
 internal class MyConsole
