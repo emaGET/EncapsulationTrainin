@@ -57,24 +57,27 @@ class Program
             {
                 Console.Write("How much to deposit? ");
                 double amount = double.Parse(Console.ReadLine() ?? "0");
-                Console.WriteLine($"Very well, Your new deposit is {myAccount.CurrentBalance + amount}");
-                break;
+                myAccount.Deposit(amount);
+                var saveDto = new BankAccountDto { Balance = myAccount.CurrentBalance, Status = "GoodScore" };
+                string savedJson = JsonSerializer.Serialize(saveDto);
+                File.WriteAllText("account.json", savedJson);
+                //Console.WriteLine("Saved: " + savedJson);
             }
+            
             else if (choice == "2")
             {
                 Console.Write("How much to withdraw? ");
                 double amount = double.Parse(Console.ReadLine() ?? "0");
-                Console.WriteLine($"Very well, Your new deposit is {myAccount.CurrentBalance - amount}");
-                break;
+                myAccount.Withdraw(amount);
+                var saveDto = new BankAccountDto { Balance = myAccount.CurrentBalance, Status = "GoodScore" };
+                string savedJson = JsonSerializer.Serialize(saveDto);
+                File.WriteAllText("account.json", savedJson);
+                //Console.WriteLine("Saved: " + savedJson);
             }
             else if (choice == "3")
             {
                 break;
-            }
-
-            string savedJson = JsonSerializer.Serialize(saveDto);
-            File.WriteAllText("account.json", savedJson);
-            Console.WriteLine("Saved: " + savedJson);
+            } 
 
         }
 
@@ -82,15 +85,15 @@ class Program
         // myAccount.Withdraw(100);
         // myAccount.Withdraw(700);
 
-        var saveDto = new BankAccountDto
+        var savedDto = new BankAccountDto
         {
             Balance = myAccount.CurrentBalance,
             Status = "GoodScore"
         };
         
-        string savedJson = JsonSerializer.Serialize(saveDto);
-        File.WriteAllText("account.json", savedJson);
-        Console.WriteLine("Saved: " + savedJson);
+        // string savedJson = JsonSerializer.Serialize(saveDto);
+        // File.WriteAllText("account.json", savedJson);
+        // Console.WriteLine("Saved: " + savedJson);
         
     }
     
@@ -127,10 +130,7 @@ internal class BankAccount
 
     public BankAccount(double initialBalance)
     {
-        if (initialBalance >= 0)
-        {
-            _balance = initialBalance;
-        }
+        _balance = initialBalance;
     }
 
     public double CurrentBalance
