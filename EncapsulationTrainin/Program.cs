@@ -51,7 +51,7 @@ class Program
             Status = "GoodScore"
         };
         
-        string savedJson = JsonSerializer.Serialize(saveDto);
+        string savedJson = JsonSerializer.Serialize(saveDto); //mah
         File.WriteAllText("account.json", savedJson);
         Console.WriteLine("Saved: " + savedJson);
         
