@@ -45,15 +45,15 @@ class Program
         myAccount.Withdraw(100);
         myAccount.Withdraw(700);
 
-        var dto = new BankAccountDto
+        var saveDto = new BankAccountDto
         {
             Balance = myAccount.CurrentBalance,
             Status = "GoodScore"
         };
         
-        string json = JsonSerializer.Serialize(dto);
-        File.WriteAllText("account.json", json);
-        Console.WriteLine("Saved: " + json);
+        string savedJson = JsonSerializer.Serialize(saveDto);
+        File.WriteAllText("account.json", savedJson);
+        Console.WriteLine("Saved: " + savedJson);
         
     }
     
